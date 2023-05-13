@@ -1,0 +1,24 @@
+name: Tägliche Aktualisierung der Daten
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  update_data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Ersetzen Sie 'x' durch die gewünschte Python-Version
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run script
+        run: python your_script.py  # Ersetzen Sie 'your_script.py' durch den Dateinamen Ihres Skripts
