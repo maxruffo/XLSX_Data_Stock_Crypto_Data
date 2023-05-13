@@ -5,3 +5,4 @@ This Code is updated daily with new data from the yfinance Library
 # To-do:
 
 - add Asia Index Scraper
+- fehlerhanlding für yfinanc
