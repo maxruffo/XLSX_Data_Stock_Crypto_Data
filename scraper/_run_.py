@@ -1,5 +1,6 @@
 import os
 import subprocess
+import time
 
 folders = ["asia", "europe", "usa"]
 
@@ -13,5 +14,6 @@ for folder in folders:
                     print(f"Ausführen der Datei: {file_path}")
                     subprocess.run(["python3", file_path], check=True)
                     print(f"Die Datei wurde erfolgreich ausgeführt: {file_path}")
+                    
     else:
         print(f"Der Ordner {folder_path} existiert nicht.")
