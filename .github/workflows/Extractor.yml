@@ -49,6 +49,7 @@ jobs:
         env:
           PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git pull
           git add .
           git commit -m "Daten aktualisiert am ${{ steps.date.outputs.date }}"
           git push
