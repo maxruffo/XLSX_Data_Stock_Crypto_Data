@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'README.md' # Passe die Dateinamen an, die von der Endlosschleife ausgeschlossen werden sollen
+      - 'README.md'
   schedule:
     - cron: "0 0 * * 0"
 
@@ -34,12 +34,15 @@ jobs:
       - name: Run Extractor
         run: python -c "from collector.exctract_data.cryptocurrencies.exctract_crypto_data import _run_crypto_extractor; from collector.exctract_data.stocks.exctract_stock_data import _run_stock_extractor; _run_crypto_extractor(); _run_stock_extractor()"
 
-      - name: Commit and push changes
+      - name: Set up Git
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Auto-commit changes"
-          git push
+          git config --global user.name "Max Ruffo"
+          git config --global user.email "max.ruffo@student.htw-berlin.de"
+
+      - name: Commit and push changes
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          PAT: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git add .
+          git commit -m "Automated commit"
+          git push

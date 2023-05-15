@@ -17,5 +17,4 @@ def run_extractor():
     _run_stock_extractor()
     
 
-run_extractor()
 

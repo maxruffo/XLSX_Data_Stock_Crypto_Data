@@ -34,12 +34,16 @@ jobs:
       - name: Run Scraper
         run: python -c "from collector.scraper.stocks.stock_scraper import _run_stocks; from collector.scraper.cryptocurrencies.crypto_scraper import _run_crypto; _run_crypto(); _run_stocks()"
 
+      - name: Set up Git
+        run: |
+          git config --global user.name "Max Ruffo"
+          git config --global user.email "max.ruffo@student.htw-berlin.de"
+
       - name: Commit and push changes
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          PAT: ${{ secrets.PAT_TOKEN }}
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
           git add .
-          git diff-index --quiet HEAD || git commit -m "Auto-commit changes"
-          git push origin HEAD:main
+          git commit -m "Automated commit"
+          git push
+    

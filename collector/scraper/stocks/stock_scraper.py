@@ -1,6 +1,6 @@
 import os
 import subprocess
-import time
+
 
 def _run_stocks():
     folders = ["asia", "europe", "usa"]
