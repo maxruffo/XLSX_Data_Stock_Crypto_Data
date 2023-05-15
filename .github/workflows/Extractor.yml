@@ -29,7 +29,7 @@ jobs:
           pip install -r requirements.txt
       
       - name: Install requests module
-        run: pip install requests pandas
+        run: pip install yfinance==0.2.18 pandas==2.0.1 openpyxl==3.1.2 requests==2.29.0
 
       - name: Run Extractor
         run: python -c "from collector.exctract_data.cryptocurrencies.exctract_crypto_data import _run_crypto_extractor; from collector.exctract_data.stocks.exctract_stock_data import _run_stock_extractor; _run_crypto_extractor(); _run_stock_extractor()"
