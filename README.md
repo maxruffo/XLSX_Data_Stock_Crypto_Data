@@ -6,3 +6,4 @@ This Code is updated daily with new data from the yfinance Library
 
 - add Asia Index Scraper
 - fehlerhanlding für yfinanc
+- github workflow funktioniert nicht
