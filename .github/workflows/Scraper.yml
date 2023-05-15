@@ -31,7 +31,12 @@ jobs:
       - name: Install requests module
         run: pip install yfinance==0.2.18 pandas==2.0.1 openpyxl==3.1.2 requests==2.29.0
 
+      - name: Aktuelles Datum abrufen
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"  
+      
       - name: Run Scraper
+        timeout-minutes: 10
         run: python -c "from collector.scraper.stocks.stock_scraper import _run_stocks; from collector.scraper.cryptocurrencies.crypto_scraper import _run_crypto; _run_crypto(); _run_stocks()"
 
       - name: Set up Git

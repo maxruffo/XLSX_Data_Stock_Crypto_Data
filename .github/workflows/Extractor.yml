@@ -31,7 +31,12 @@ jobs:
       - name: Install requests module
         run: pip install yfinance==0.2.18 pandas==2.0.1 openpyxl==3.1.2 requests==2.29.0
 
+      - name: Aktuelles Datum abrufen
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      
       - name: Run Extractor
+        timeout-minutes: 10
         run: python -c "from collector.exctract_data.cryptocurrencies.exctract_crypto_data import _run_crypto_extractor; from collector.exctract_data.stocks.exctract_stock_data import _run_stock_extractor; _run_crypto_extractor(); _run_stock_extractor()"
 
       - name: Set up Git
@@ -45,5 +50,5 @@ jobs:
           PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add .
-          git commit -m "Daten aktualisiert"
+          git commit -m "Daten aktualisiert am ${{ steps.date.outputs.date }}"
           git push
