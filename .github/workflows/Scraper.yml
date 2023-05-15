@@ -35,11 +35,11 @@ jobs:
         run: python -c "from collector.scraper.stocks.stock_scraper import _run_stocks; from collector.scraper.cryptocurrencies.crypto_scraper import _run_crypto; _run_crypto(); _run_stocks()"
 
       - name: Commit and push changes
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
           git diff-index --quiet HEAD || git commit -m "Auto-commit changes"
-          git push
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          git push origin HEAD:main
