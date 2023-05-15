@@ -1,0 +1,45 @@
+name: Extractor Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md' # Passe die Dateinamen an, die von der Endlosschleife ausgeschlossen werden sollen
+  schedule:
+    - cron: "0 0 * * 0"
+
+jobs:
+  run_extractor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Install requests module
+        run: pip install requests pandas
+
+      - name: Run Extractor
+        run: python -c "from collector.exctract_data.cryptocurrencies.exctract_crypto_data import _run_crypto_extractor; from collector.exctract_data.stocks.exctract_stock_data import _run_stock_extractor; _run_crypto_extractor(); _run_stock_extractor()"
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Auto-commit changes"
+          git push
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
