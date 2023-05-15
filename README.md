@@ -14,6 +14,11 @@ The data folder is build like this:
                 - 2023-05-16.csv
             - ADA-USD.csv #concat of all the data in the history folder 
         - ~index_cryptocurrencies_list.xlsx # Top 50 Cryptocurrencies
+        - ALGO-USD
+        - APE-USD
+        - APT-USD
+        - ARB-USD
+        - ...
     - stocks
         - ~index_ticker_list
             - eruope
@@ -30,6 +35,7 @@ The data folder is build like this:
         - AAL
         - AAP
         - AAPL
+        - ...
 ```
 
 ## Prerequisites
