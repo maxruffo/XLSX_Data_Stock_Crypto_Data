@@ -40,7 +40,7 @@ jobs:
           git config --global user.email "max.ruffo@student.htw-berlin.de"
           
 
-      - name: Commit and Push changes
+      - name: Commit and push changes
         env:
           PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
