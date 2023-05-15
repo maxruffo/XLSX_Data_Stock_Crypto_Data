@@ -35,6 +35,11 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"  
       
+      - name: Git Pull um Repo zu aktualisieren
+        env: 
+          PAT: ${{ secrets.GITHUB_TOKEN }}
+        run: git pull    
+
       - name: Run Scraper
         timeout-minutes: 10
         run: python -c "from collector.scraper.stocks.stock_scraper import _run_stocks; from collector.scraper.cryptocurrencies.crypto_scraper import _run_crypto; _run_crypto(); _run_stocks()"
@@ -49,7 +54,6 @@ jobs:
         env:
           PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git pull
           git add .
           git commit -m "Daten aktualisiert"
           git push
