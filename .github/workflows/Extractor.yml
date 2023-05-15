@@ -38,12 +38,13 @@ jobs:
         run: |
           git config --global user.name "Max Ruffo"
           git config --global user.email "max.ruffo@student.htw-berlin.de"
+          
 
-      - name: Commit and push changes
+      - name: Commit and Push changes
         env:
           PAT: ${{ secrets.PAT_TOKEN }}
         run: |
+          git remote set-url --push origin https://maxruffo:$PAT_TOKEN@github.com:maxruffo/Stock_Crypto_Data.git
           git add .
           git commit -m "Automated commit"
           git push
-git 
