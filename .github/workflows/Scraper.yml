@@ -42,10 +42,8 @@ jobs:
 
       - name: Commit and Push changes
         env:
-          PAT: ${{ secrets.PAT_TOKEN }}
+          PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git remote set-url --push origin https://maxruffo:$PAT_TOKEN@github.com/maxruffo/Stock_Crypto_Data
           git add .
-          git commit -m "Automated commit"
+          git commit -m "Daten aktualisiert"
           git push
-    
