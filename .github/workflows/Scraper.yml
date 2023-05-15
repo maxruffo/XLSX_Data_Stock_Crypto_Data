@@ -1,0 +1,42 @@
+name: Scraper Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md' # Passe die Dateinamen an, die von der Endlosschleife ausgeschlossen werden sollen
+  schedule:
+    - cron: "0 14 * * *"
+
+jobs:
+  run_scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Scraper
+        run: python -c "from collector.scraper.stocks.stock_scraper import _run_stocks; from collector.scraper.cryptocurrencies.crypto_scraper import _run_crypto; _run_crypto(); _run_stocks()"
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Auto-commit changes"
+          git push
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
