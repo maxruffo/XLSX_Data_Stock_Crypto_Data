@@ -18,3 +18,5 @@ def run_extractor():
     
 
 
+run_scraper()
+run_extractor()
