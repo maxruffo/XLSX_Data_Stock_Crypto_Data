@@ -64,14 +64,15 @@ def save_data_to_history_folder(data, stock_history_folder):
     stock_history_filename = os.path.join(stock_history_folder, f"{current_date}.csv")
 
     if os.path.exists(stock_history_filename):
-        existing_data = pd.read_csv(stock_history_filename, index_col='Datetime', parse_dates=True)
-        data = pd.concat([existing_data, data]).loc[~pd.concat([existing_data, data]).index.duplicated(keep='first')]
-        data.to_csv(stock_history_filename)
+        existing_data = pd.read_csv(stock_history_filename)
+        data = pd.concat([existing_data, data]).drop_duplicates().reset_index(drop=True)
+        data.to_csv(stock_history_filename, index=False)
         print(f"Aktualisierte Daten wurden in {stock_history_filename} (historischer Ordner) gespeichert.")
     else:
         data.to_csv(stock_history_filename, index=False)
         print(f"Daten wurden in {stock_history_filename} (historischer Ordner) gespeichert.")
     print("\n")
+
 
 
 

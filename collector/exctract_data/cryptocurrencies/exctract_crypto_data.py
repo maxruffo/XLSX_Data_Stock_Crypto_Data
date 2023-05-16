@@ -45,14 +45,15 @@ def create_crypto_folder(crypto):
 
 def save_data_to_file(data, filename):
     if os.path.exists(filename):
-        existing_data = pd.read_csv(filename, index_col='Datetime', parse_dates=True)
-        data = pd.concat([existing_data, data]).loc[~pd.concat([existing_data, data]).index.duplicated(keep='first')]
-        data.to_csv(filename)
+        existing_data = pd.read_csv(filename)
+        data = pd.concat([existing_data, data]).drop_duplicates().reset_index(drop=True)
+        data.to_csv(filename, index=False)
         print(f"Aktualisierte Daten wurden in {filename} gespeichert.")
     else:
         data.to_csv(filename, index=False)
         print(f"Daten wurden in {filename} gespeichert.")
     print("\n")
+
 
 def create_crypto_history_folder(crypto_folder):
     crypto_history_folder = os.path.join(crypto_folder, "history")
@@ -66,15 +67,15 @@ def save_data_to_history_folder(data, crypto_history_folder):
     crypto_history_filename = os.path.join(crypto_history_folder, f"{current_date}.csv")
 
     if os.path.exists(crypto_history_filename):
-        existing_data = pd.read_csv(crypto_history_filename, index_col='Datetime', parse_dates=True)
-        data = pd.concat([existing_data, data]).loc[~pd.concat([existing_data, data]).index.duplicated(keep='first')]
-        data.to_csv(crypto_history_filename)
+        existing_data = pd.read_csv(crypto_history_filename)
+        data = pd.concat([existing_data, data]).drop_duplicates().reset_index(drop=True)
+        data.to_csv(crypto_history_filename, index=False)
         print(f"Aktualisierte Daten wurden in {crypto_history_filename} (historischer Ordner) gespeichert.")
     else:
         data.to_csv(crypto_history_filename, index=False)
         print(f"Daten wurden in {crypto_history_filename} (historischer Ordner) gespeichert.")
     print("\n")
-    
+  
 
 
 def download_crypto_data(crypto):
