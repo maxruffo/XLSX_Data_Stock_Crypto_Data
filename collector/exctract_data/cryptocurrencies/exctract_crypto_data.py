@@ -34,7 +34,7 @@ def save_ticker_to_error_file(crypto):
     else:
         not_found_df.to_excel(error_file, index=False)
     print(f"Das DataFrame für {crypto} ist leer. Tickersymbol wurde in '{error_file}' hinzugefügt.")
-
+    print("\n")
 
 def create_crypto_folder(crypto):
     crypto_folder = os.path.join(target_folder, crypto)
@@ -45,12 +45,14 @@ def create_crypto_folder(crypto):
 
 def save_data_to_file(data, filename):
     if os.path.exists(filename):
-        data.to_csv(filename, mode='a', header=False)
+        existing_data = pd.read_csv(filename, index_col='Datetime', parse_dates=True)
+        data = pd.concat([existing_data, data]).loc[~pd.concat([existing_data, data]).index.duplicated(keep='first')]
+        data.to_csv(filename)
         print(f"Aktualisierte Daten wurden in {filename} gespeichert.")
     else:
-        data.to_csv(filename)
+        data.to_csv(filename, index=False)
         print(f"Daten wurden in {filename} gespeichert.")
-
+    print("\n")
 
 def create_crypto_history_folder(crypto_folder):
     crypto_history_folder = os.path.join(crypto_folder, "history")
@@ -62,9 +64,17 @@ def create_crypto_history_folder(crypto_folder):
 def save_data_to_history_folder(data, crypto_history_folder):
     current_date = datetime.today().strftime('%Y-%m-%d')
     crypto_history_filename = os.path.join(crypto_history_folder, f"{current_date}.csv")
-    data.to_csv(crypto_history_filename)
-    print(f"Daten wurden in {crypto_history_filename} (historischer Ordner) gespeichert.")
+
+    if os.path.exists(crypto_history_filename):
+        existing_data = pd.read_csv(crypto_history_filename, index_col='Datetime', parse_dates=True)
+        data = pd.concat([existing_data, data]).loc[~pd.concat([existing_data, data]).index.duplicated(keep='first')]
+        data.to_csv(crypto_history_filename)
+        print(f"Aktualisierte Daten wurden in {crypto_history_filename} (historischer Ordner) gespeichert.")
+    else:
+        data.to_csv(crypto_history_filename, index=False)
+        print(f"Daten wurden in {crypto_history_filename} (historischer Ordner) gespeichert.")
     print("\n")
+    
 
 
 def download_crypto_data(crypto):
@@ -84,7 +94,7 @@ def download_crypto_data(crypto):
         print(f"Fehler beim Herunterladen der Daten für {crypto}: {str(e)}")
 
 
-def run_crypto_extractor():
+def _run_crypto_extractor():
     ticker_set = extract_tickers()
     for crypto in ticker_set:
         download_crypto_data(crypto)
