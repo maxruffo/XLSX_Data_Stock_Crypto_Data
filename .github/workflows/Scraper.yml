@@ -52,5 +52,5 @@ jobs:
         run: |
           git pull
           git add .
-          git commit -m "Daten aktualisiert"
+          git commit -m "Daten aktualisiert am ${{ steps.date.outputs.date }}" --allow-empty
           git push
