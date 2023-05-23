@@ -34,11 +34,7 @@ jobs:
       - name: Aktuelles Datum abrufen
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"  
-      
-      - name: Git Pull um Repo zu aktualisieren
-        env: 
-          PAT: ${{ secrets.GITHUB_TOKEN }}
-        run: git pull    
+        
 
       - name: Run Scraper
         timeout-minutes: 10

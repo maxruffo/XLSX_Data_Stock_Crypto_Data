@@ -34,6 +34,7 @@ jobs:
       - name: Aktuelles Datum abrufen
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       
       - name: Run Extractor
         timeout-minutes: 10
