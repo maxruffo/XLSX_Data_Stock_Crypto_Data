@@ -7,7 +7,7 @@ on:
     paths-ignore:
       - 'README.md' # Passe die Dateinamen an, die von der Endlosschleife ausgeschlossen werden sollen
   schedule:
-    - cron: "0 22 * * *"
+    - cron: "0 12 * * 0" # Führe den Workflow jeden Sonntag um 12 Uhr aus
 
 jobs:
   run_scraper:

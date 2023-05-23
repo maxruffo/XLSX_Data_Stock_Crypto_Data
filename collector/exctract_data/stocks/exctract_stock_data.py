@@ -42,14 +42,16 @@ def create_stock_folder(stock):
 
 def save_data_to_file(data, filename):
     if os.path.exists(filename):
-        existing_data = pd.read_csv(filename, index_col='Datetime', parse_dates=True)
-        data = pd.concat([existing_data, data]).loc[~pd.concat([existing_data, data]).index.duplicated(keep='first')]
-        data.to_csv(filename)
+        existing_data = pd.read_csv(filename, index_col='Date', parse_dates=True)
+        data = pd.concat([existing_data, data]).drop_duplicates(subset='Date').reset_index(drop=True)
+        data.to_csv(filename, index=True, index_label='Date')  # Änderung hier: index=True für den Timestamp
         print(f"Aktualisierte Daten wurden in {filename} gespeichert.")
     else:
-        data.to_csv(filename, index=False)
+        data.to_csv(filename, index=True, index_label='Date')  # Änderung hier: index=True für den Timestamp
         print(f"Daten wurden in {filename} gespeichert.")
     print("\n")
+
+
 
 
 def create_stock_history_folder(stock_folder):
@@ -64,15 +66,15 @@ def save_data_to_history_folder(data, stock_history_folder):
     stock_history_filename = os.path.join(stock_history_folder, f"{current_date}.csv")
 
     if os.path.exists(stock_history_filename):
-        existing_data = pd.read_csv(stock_history_filename)
-        data = pd.concat([existing_data, data]).drop_duplicates().reset_index(drop=True)
-        data.to_csv(stock_history_filename, index=False)
+        existing_data = pd.read_csv(stock_history_filename, index_col='Date', parse_dates=True)
+        data = pd.concat([existing_data, data]).drop_duplicates(subset='Date').reset_index(drop=True)
+
+        data.to_csv(stock_history_filename, index=True, index_label='Date')  # Änderung hier: index=True für den Timestamp
         print(f"Aktualisierte Daten wurden in {stock_history_filename} (historischer Ordner) gespeichert.")
     else:
-        data.to_csv(stock_history_filename, index=False)
+        data.to_csv(stock_history_filename, index=True, index_label='Date')  # Änderung hier: index=True für den Timestamp
         print(f"Daten wurden in {stock_history_filename} (historischer Ordner) gespeichert.")
     print("\n")
-
 
 
 
@@ -82,6 +84,9 @@ def download_stock_data(stock):
         if data.empty:
             save_ticker_to_error_file(stock)
             return
+
+        # Erstellen der Spalte "Date" und Festlegen des Timestamps
+        data['Date'] = data.index
 
         stock_folder = create_stock_folder(stock)
         current_filename = os.path.join(stock_folder, f"{stock}.csv")
@@ -97,3 +102,5 @@ def _run_stock_extractor():
     ticker_set = extract_tickers()
     for stock in ticker_set:
         download_stock_data(stock)
+
+

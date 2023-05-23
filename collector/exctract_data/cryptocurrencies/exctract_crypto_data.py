@@ -36,6 +36,7 @@ def save_ticker_to_error_file(crypto):
     print(f"Das DataFrame für {crypto} ist leer. Tickersymbol wurde in '{error_file}' hinzugefügt.")
     print("\n")
 
+
 def create_crypto_folder(crypto):
     crypto_folder = os.path.join(target_folder, crypto)
     if not os.path.exists(crypto_folder):
@@ -45,12 +46,13 @@ def create_crypto_folder(crypto):
 
 def save_data_to_file(data, filename):
     if os.path.exists(filename):
-        existing_data = pd.read_csv(filename)
-        data = pd.concat([existing_data, data]).drop_duplicates().reset_index(drop=True)
-        data.to_csv(filename, index=False)
+        existing_data = pd.read_csv(filename, index_col='Date', parse_dates=True)
+        data = pd.concat([existing_data, data]).drop_duplicates(subset='Date').reset_index(drop=True)
+
+        data.to_csv(index=True, index_label='Date')
         print(f"Aktualisierte Daten wurden in {filename} gespeichert.")
     else:
-        data.to_csv(filename, index=False)
+        data.to_csv(filename, index=True, index_label='Date')
         print(f"Daten wurden in {filename} gespeichert.")
     print("\n")
 
@@ -67,12 +69,15 @@ def save_data_to_history_folder(data, crypto_history_folder):
     crypto_history_filename = os.path.join(crypto_history_folder, f"{current_date}.csv")
 
     if os.path.exists(crypto_history_filename):
-        existing_data = pd.read_csv(crypto_history_filename)
-        data = pd.concat([existing_data, data]).drop_duplicates().reset_index(drop=True)
-        data.to_csv(crypto_history_filename, index=False)
+        existing_data = pd.read_csv(crypto_history_filename, index_col='Date', parse_dates=True)
+        data = pd.concat([existing_data, data]).drop_duplicates(subset='Date').reset_index(drop=True)
+
+
+        data.to_csv(crypto_history_filename,index=True, index_label='Date')
+        
         print(f"Aktualisierte Daten wurden in {crypto_history_filename} (historischer Ordner) gespeichert.")
     else:
-        data.to_csv(crypto_history_filename, index=False)
+        data.to_csv(crypto_history_filename, index=True, index_label='Date')
         print(f"Daten wurden in {crypto_history_filename} (historischer Ordner) gespeichert.")
     print("\n")
   
@@ -84,6 +89,9 @@ def download_crypto_data(crypto):
         if data.empty:
             save_ticker_to_error_file(crypto)
             return
+
+        # Erstellen der Spalte "Date" und Festlegen des Timestamps
+        data['Date'] = data.index
 
         crypto_folder = create_crypto_folder(crypto)
         current_filename = os.path.join(crypto_folder, f"{crypto}.csv")
@@ -99,5 +107,3 @@ def _run_crypto_extractor():
     ticker_set = extract_tickers()
     for crypto in ticker_set:
         download_crypto_data(crypto)
-
-
