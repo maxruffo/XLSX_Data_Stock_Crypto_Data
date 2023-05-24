@@ -80,7 +80,10 @@ def save_data_to_history_folder(data, stock_history_folder):
 
 def download_stock_data(stock):
     try:
-        data = yf.download(stock, period='1d', interval='1m', progress=False)
+        today = datetime.date.today()
+        yesterday = today - datetime.timedelta(days=1)
+        data = yf.download(stock, period='1d', interval='1m',start=yesterday,end=today, progress=False)
+        
         if data.empty:
             save_ticker_to_error_file(stock)
             return
