@@ -85,7 +85,11 @@ def save_data_to_history_folder(data, crypto_history_folder):
 
 def download_crypto_data(crypto):
     try:
-        data = yf.download(crypto, period='1d', interval='1m', progress=False)
+        # download data
+        today = datetime.date.today()
+        yesterday = today - datetime.timedelta(days=1)
+        data = yf.download(crypto, period='1d', interval='1m',start=yesterday,end=today, progress=False)
+        
         if data.empty:
             save_ticker_to_error_file(crypto)
             return

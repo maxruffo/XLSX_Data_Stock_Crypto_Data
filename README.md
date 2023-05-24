@@ -77,6 +77,8 @@ This program is licensed under the [MIT License](LICENSE).
 
 - add Asia Index Scraper
 - fehlerhanlding für yfinanc
+- stock extractor funktionier nicht
+- daten werden irgendwi nur bis 23:03/23:08 hochgeladen kann aber übersehen werden
 
 # To - do erledigt:
 
