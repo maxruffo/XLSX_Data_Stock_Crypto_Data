@@ -33,24 +33,24 @@ jobs:
 
       - name: Aktuelles Datum abrufen
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-
+        run: |
+          echo "date=$(date -d '1 day ago' +'%Y-%m-%d')" >> $GITHUB_ENV
       
       - name: Run Extractor
         timeout-minutes: 10
-        run: python -c "from collector.exctract_data.cryptocurrencies.exctract_crypto_data import _run_crypto_extractor; from collector.exctract_data.stocks.exctract_stock_data import _run_stock_extractor; _run_crypto_extractor(); _run_stock_extractor()"
+        run: python -c "import os; from collector.exctract_data.cryptocurrencies.exctract_crypto_data import _run_crypto_extractor; from collector.exctract_data.stocks.exctract_stock_data import _run_stock_extractor; date = os.getenv('date'); _run_crypto_extractor(date); _run_stock_extractor(date)"
 
       - name: Set up Git
         run: |
           git config --global user.name "Max Ruffo"
           git config --global user.email "max.ruffo@student.htw-berlin.de"
           
-
-      - name: commit and push
+      - name: Commit and Push
         env:
           PAT: ${{ secrets.GITHUB_TOKEN }}
+          DATE: ${{ env.date }}
         run: |
           git pull
           git add .
-          git commit -m "Daten aktualisiert am ${{ steps.date.outputs.date }}" --allow-empty
+          git commit -m "Daten aktualisiert am $DATE" --allow-empty
           git push
