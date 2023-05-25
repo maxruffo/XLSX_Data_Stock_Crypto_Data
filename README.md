@@ -6,20 +6,28 @@ In the Folder "data" you can find all the data that is collected.
 The data folder is build like this:
 
 # Data in this Repository:
+
 Here you gonna find the most important links to use for the data you want to use
 
 ## Stocks
+
 ### Index Ticker Lists
+
 - **[Europe](data/stocks/~index_ticker_list/europe/)**
-- **[USA](data/stocks/~index_ticker_list/usa/)** 
+- **[USA](data/stocks/~index_ticker_list/usa/)**
+
 ### Raw Stock Data
+
 - **[Stocks](data/stocks/)**
 
 ## Cryptocurrencies
+
 ### Index Ticker Lists
+
 - **[Top 50 Cryptocurrencies](data/cryptocurrencies/~index_cryptocurrencies_list.xlsx)**
 
 ### Raw Cryptocurrencies Data
+
 - **[Crypto](data/cryptocurrencies/)**
 
 ## Structure of the Repository
@@ -94,11 +102,12 @@ This program is licensed under the [MIT License](LICENSE).
 
 # To-do:
 
+- LOKALE SQL Datenbank für die Daten
 - add Asia Index Scraper
 - fehlerhanlding für yfinanc
-- stock extractor funktionier nicht
-- daten werden irgendwi nur bis 23:03/23:08 hochgeladen kann aber übersehen werden
 
 # To - do erledigt:
 
 - github workflow funktioniert nicht
+- stock extractor funktionier nicht
+- daten werden irgendwi nur bis 23:03/23:08 hochgeladen kann aber übersehen werden
