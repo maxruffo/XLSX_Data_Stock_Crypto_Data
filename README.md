@@ -5,6 +5,23 @@ This program is designed to download daily minute data from Yahoo Finance for al
 In the Folder "data" you can find all the data that is collected.
 The data folder is build like this:
 
+# Data in this Repository:
+Here you gonna find the most important links to use for the data you want to use
+
+## Stocks
+### Index Ticker Lists
+- **[Europe](data/stocks/~index_ticker_list/europe/)**
+- **[USA](data/stocks/~index_ticker_list/usa/)** 
+### Raw Stock Data
+- **[Stocks](data/stocks/)**
+
+## Cryptocurrencies
+### Index Ticker Lists
+- **[Top 50 Cryptocurrencies](data/cryptocurrencies/~index_cryptocurrencies_list.xlsx)**
+
+### Raw Cryptocurrencies Data
+- **[Crypto](data/cryptocurrencies/)**
+
 ```sh
 - data
     - cryptocurrencies
