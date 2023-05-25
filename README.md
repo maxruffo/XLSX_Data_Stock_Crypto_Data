@@ -22,6 +22,8 @@ Here you gonna find the most important links to use for the data you want to use
 ### Raw Cryptocurrencies Data
 - **[Crypto](data/cryptocurrencies/)**
 
+## Structure of the Repository
+
 ```sh
 - data
     - cryptocurrencies
