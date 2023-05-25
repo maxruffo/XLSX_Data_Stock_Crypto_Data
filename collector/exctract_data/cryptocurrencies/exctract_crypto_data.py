@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import yfinance as yf
 from datetime import datetime
+import datetime as datetime2
 
 data_folder = "data/cryptocurrencies"
 target_folder = "data/cryptocurrencies"
@@ -65,7 +66,11 @@ def create_crypto_history_folder(crypto_folder):
 
 
 def save_data_to_history_folder(data, crypto_history_folder):
-    current_date = datetime.today().strftime('%Y-%m-%d')
+    
+    today = datetime2.date.today()
+    yesterday = today - datetime2.timedelta(days=1)
+    current_date = yesterday.strftime('%Y-%m-%d')
+
     crypto_history_filename = os.path.join(crypto_history_folder, f"{current_date}.csv")
 
     if os.path.exists(crypto_history_filename):
@@ -86,8 +91,8 @@ def save_data_to_history_folder(data, crypto_history_folder):
 def download_crypto_data(crypto):
     try:
         # download data
-        today = datetime.date.today()
-        yesterday = today - datetime.timedelta(days=1)
+        today = datetime2.date.today()
+        yesterday = today - datetime2.timedelta(days=1)
         data = yf.download(crypto, period='1d', interval='1m',start=yesterday,end=today, progress=False)
         
         if data.empty:
@@ -111,3 +116,4 @@ def _run_crypto_extractor():
     ticker_set = extract_tickers()
     for crypto in ticker_set:
         download_crypto_data(crypto)
+

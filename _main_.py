@@ -1,5 +1,6 @@
 
 # Impotierung der Module für die Index Datei erstellung
+
 from collector.scraper.stocks.stock_scraper import _run_stocks
 from collector.scraper.cryptocurrencies.crypto_scraper import _run_crypto
 

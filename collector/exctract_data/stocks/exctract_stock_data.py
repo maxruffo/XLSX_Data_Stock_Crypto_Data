@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import yfinance as yf
 from datetime import datetime
+import datetime as datetime2
 
 data_folder = "data/stocks/~index_ticker_list"
 target_folder = "data/stocks"
@@ -62,7 +63,10 @@ def create_stock_history_folder(stock_folder):
 
 
 def save_data_to_history_folder(data, stock_history_folder):
-    current_date = datetime.today().strftime('%Y-%m-%d')
+    today = datetime2.date.today()
+    yesterday = today - datetime2.timedelta(days=1)
+    current_date = yesterday.strftime('%Y-%m-%d')
+    
     stock_history_filename = os.path.join(stock_history_folder, f"{current_date}.csv")
 
     if os.path.exists(stock_history_filename):
@@ -80,9 +84,10 @@ def save_data_to_history_folder(data, stock_history_folder):
 
 def download_stock_data(stock):
     try:
-        today = datetime.date.today()
-        yesterday = today - datetime.timedelta(days=1)
-        data = yf.download(stock, period='1d', interval='1m',start=yesterday,end=today, progress=False)
+        today = datetime2.date.today()
+        yesterday = today - datetime2.timedelta(days=1)
+        
+        data = yf.download(stock, period='1d', interval='1m',start=yesterday,end = today, progress=False)
         
         if data.empty:
             save_ticker_to_error_file(stock)
