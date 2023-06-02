@@ -1,4 +1,5 @@
-
+import os
+import pandas as pd
 # Impotierung der Module für die Index Datei erstellung
 
 from collector.scraper.stocks.stock_scraper import _run_stocks
@@ -17,7 +18,10 @@ def run_extractor():
     _run_crypto_extractor()
     _run_stock_extractor()
     
-
-
 run_scraper()
 run_extractor()
+
+
+
+
+

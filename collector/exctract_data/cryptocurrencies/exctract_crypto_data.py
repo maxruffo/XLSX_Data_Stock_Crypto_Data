@@ -99,12 +99,11 @@ def download_crypto_data(crypto):
             save_ticker_to_error_file(crypto)
             return
 
-        # Erstellen der Spalte "Date" und Festlegen des Timestamps
-        data['Date'] = data.index
-
         crypto_folder = create_crypto_folder(crypto)
-        current_filename = os.path.join(crypto_folder, f"{crypto}.csv")
-        save_data_to_file(data, current_filename)
+        
+        # es sollte nicht mehr eine Concat Datei erstellt werden
+        #current_filename = os.path.join(crypto_folder, f"{crypto}.csv")
+        #save_data_to_file(data, current_filename)
 
         crypto_history_folder = create_crypto_history_folder(crypto_folder)
         save_data_to_history_folder(data, crypto_history_folder)
