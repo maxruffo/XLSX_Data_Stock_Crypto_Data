@@ -1,0 +1,1 @@
+from insert_pricedata import _insert_pricedata
