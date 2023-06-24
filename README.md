@@ -1,5 +1,7 @@
 # Yahoo Finance Data Downloader
 
+## Current. NOT WORKING
+
 This program is designed to download daily minute data from Yahoo Finance for all stocks in major stock indices and price data for the top 50 cryptocurrencies.
 
 In the Folder "data" you can find all the data that is collected.
